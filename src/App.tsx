@@ -129,7 +129,7 @@ export default function App() {
           <div className="bg-sky-500/10 border border-sky-400/30 rounded-2xl px-8 py-5 inline-block">
             <p className="text-sm text-sky-300 font-semibold tracking-widest uppercase mb-1">Now Serving</p>
             <h1 className="text-3xl md:text-5xl font-black text-white leading-tight">
-              Chesham, Amersham &amp; Wycombe
+              Wycombe, Amersham &amp; Surrounding Areas
             </h1>
           </div>
 
@@ -227,7 +227,7 @@ export default function App() {
             Book Your Valet Today
           </h2>
           <p className="text-slate-400 mb-8 text-base">
-            Serving <span className="text-sky-300 font-semibold">Chesham, Amersham &amp; Wycombe</span> — we come to your door
+            Serving <span className="text-sky-300 font-semibold">Wycombe, Amersham &amp; Surrounding Areas</span> — we come to your door
           </p>
           <a
             href={`tel:${PHONE}`}
@@ -245,7 +245,7 @@ export default function App() {
           <span className="font-black zl-text text-lg">ZL</span>
           <span className="font-black text-white text-lg">SCRUBZ</span>
         </div>
-        <p className="text-slate-500 text-xs">Premium Mobile Car Wash &amp; Valeting · Chesham, Amersham &amp; Wycombe</p>
+        <p className="text-slate-500 text-xs">Premium Mobile Car Wash &amp; Valeting · Wycombe, Amersham &amp; Surrounding Areas</p>
         <p className="text-slate-600 text-xs mt-1">© {new Date().getFullYear()} ZL Scrubz. All rights reserved.</p>
       </footer>
 
