@@ -4,6 +4,9 @@ import './index.css'
 
 const PHONE = 'YOUR_NUMBER'
 const WHATSAPP = 'YOUR_NUMBER' // include country code digits only e.g. 447700000000
+const EMAIL = 'Jack@Jaxendor.com'
+const INSTAGRAM = 'zlscrubz' // Instagram handle without @
+const TIKTOK = 'zlscrubz'    // TikTok handle without @
 
 const services = [
   { icon: '🚿', title: 'Full Exterior Wash & Wax', desc: 'Hand wash with premium products + protective wax coat for lasting shine' },
@@ -118,6 +121,15 @@ const whyMobile = [
   },
 ]
 
+const vehicles = [
+  { icon: '🚗', type: 'Small Cars', example: 'Fiesta, Polo, Corsa', note: 'Best value per size' },
+  { icon: '🚙', type: 'Saloons & Hatches', example: 'Golf, Focus, Astra', note: 'Our most popular category' },
+  { icon: '🛻', type: 'SUVs & 4x4s', example: 'Qashqai, CRV, Discovery', note: 'Slightly higher price' },
+  { icon: '🚐', type: 'MPVs & People Carriers', example: 'Galaxy, Touran, Zafira', note: 'Quote on request' },
+  { icon: '🚚', type: 'Vans & Commercials', example: 'Transit, Sprinter, Vivaro', note: 'Quote on request' },
+  { icon: '🏎️', type: 'Prestige & Sports', example: 'BMW, Mercedes, Audi', note: 'Extra care taken' },
+]
+
 const areas = [
   'High Wycombe', 'Amersham', 'Chesham', 'Beaconsfield',
   'Hazlemere', 'Flackwell Heath', 'Loudwater', 'Penn',
@@ -129,6 +141,75 @@ const steps = [
   { num: '02', title: 'We Come to You', desc: 'Our team arrives at your door with everything needed — no need to drive anywhere.' },
   { num: '03', title: 'Drive Away Gleaming', desc: 'We clean, polish and inspect your car until it\'s showroom-ready. You just enjoy the result.' },
 ]
+
+function BookingForm() {
+  const [sent, setSent] = useState(false)
+  const [form, setForm] = useState({ name: '', vehicle: '', location: '', service: 'Full Valet', message: '' })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const body = `Name: ${form.name}%0AVehicle: ${form.vehicle}%0ALocation: ${form.location}%0AService: ${form.service}%0AMessage: ${form.message}`
+    window.location.href = `mailto:${EMAIL}?subject=ZL Scrubz Booking Enquiry&body=${body}`
+    setSent(true)
+  }
+
+  if (sent) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-5xl mb-4">✅</div>
+        <h3 className="text-white font-black text-xl mb-2">Thanks! We'll be in touch soon.</h3>
+        <p className="text-slate-400 text-sm">Or call/WhatsApp us for a faster response.</p>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="flex flex-col gap-1">
+        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Your Name *</label>
+        <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+          placeholder="e.g. John Smith"
+          className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Vehicle *</label>
+        <input required value={form.vehicle} onChange={e => setForm(f => ({ ...f, vehicle: e.target.value }))}
+          placeholder="e.g. BMW 3 Series, Ford Transit"
+          className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Your Location *</label>
+        <input required value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))}
+          placeholder="e.g. High Wycombe, HP13"
+          className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Service Wanted</label>
+        <select value={form.service} onChange={e => setForm(f => ({ ...f, service: e.target.value }))}
+          className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors">
+          <option>Express Wash</option>
+          <option>Full Valet</option>
+          <option>Premium Detail</option>
+          <option>Not sure — advise me</option>
+        </select>
+      </div>
+      <div className="flex flex-col gap-1 sm:col-span-2">
+        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Anything else?</label>
+        <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+          placeholder="Preferred date/time, specific concerns, access instructions..."
+          rows={3}
+          className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600 resize-none" />
+      </div>
+      <div className="sm:col-span-2">
+        <button type="submit"
+          className="w-full glow-btn bg-sky-500 hover:bg-sky-400 text-white font-black py-4 rounded-xl text-base transition-all">
+          Send Enquiry 🚿
+        </button>
+        <p className="text-center text-slate-500 text-xs mt-3">We aim to reply within a few hours. For same-day bookings, call or WhatsApp us directly.</p>
+      </div>
+    </form>
+  )
+}
 
 function RainDrops() {
   return (
@@ -226,6 +307,12 @@ export default function App() {
           </div>
           <div className="flex items-center gap-2">
             <a
+              href="#book"
+              className="text-sky-300 hover:text-white font-semibold text-sm transition-colors hidden md:inline"
+            >
+              Book Online
+            </a>
+            <a
               href={`https://wa.me/${WHATSAPP}?text=Hi%20ZL%20Scrubz!%20I%27d%20like%20to%20book%20a%20valet%20please.`}
               target="_blank"
               rel="noopener noreferrer"
@@ -237,7 +324,7 @@ export default function App() {
               href={`tel:${PHONE}`}
               className="glow-btn bg-sky-500 hover:bg-sky-400 text-white font-bold px-5 py-2 rounded-full text-sm transition-all"
             >
-              📞 Call to Book
+              📞 Call
             </a>
           </div>
         </div>
@@ -535,6 +622,82 @@ export default function App() {
         </div>
       </section>
 
+      {/* Vehicle Types */}
+      <section id="vehicles" className="py-20 px-4" style={{ background: 'linear-gradient(180deg, #071428 0%, #040c1a 100%)' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-sky-400 font-black text-xl md:text-2xl tracking-widest uppercase mb-2">
+              All Vehicle Types Welcome
+            </h2>
+            <div className="section-divider max-w-xs mx-auto" />
+            <p className="text-slate-400 mt-4 text-sm max-w-xl mx-auto">
+              From city cars to commercial vans — if it has wheels, we can valet it.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {vehicles.map((v) => (
+              <div key={v.type} className="service-card rounded-2xl p-5 text-center">
+                <div className="text-3xl mb-2">{v.icon}</div>
+                <h3 className="text-white font-bold text-sm mb-1">{v.type}</h3>
+                <p className="text-slate-500 text-xs mb-2">{v.example}</p>
+                <span className="text-sky-400 text-xs font-semibold">{v.note}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Book Online */}
+      <section id="book" className="py-20 px-4" style={{ background: '#040c1a' }}>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-sky-400 font-black text-xl md:text-2xl tracking-widest uppercase mb-2">
+              Book Online
+            </h2>
+            <div className="section-divider max-w-xs mx-auto" />
+            <p className="text-slate-400 mt-4 text-sm">
+              Fill in your details and we'll get back to you to confirm your slot. Rather speak to us?{' '}
+              <a href={`tel:${PHONE}`} className="text-sky-400 hover:underline">Give us a call</a> or{' '}
+              <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline">WhatsApp us</a>.
+            </p>
+          </div>
+          <div className="service-card rounded-2xl p-7">
+            <BookingForm />
+          </div>
+        </div>
+      </section>
+
+      {/* Social Follow */}
+      <section className="py-16 px-4 text-center" style={{ background: 'linear-gradient(180deg, #040c1a 0%, #071428 100%)' }}>
+        <div className="max-w-xl mx-auto">
+          <h2 className="text-white font-black text-xl md:text-2xl mb-3">Follow the Journey</h2>
+          <p className="text-slate-400 text-sm mb-8 leading-relaxed">
+            We post before & afters, tips on keeping your car clean, and behind-the-scenes content. Follow us for local car care inspo.
+          </p>
+          <div className="flex justify-center gap-4">
+            <a
+              href={`https://instagram.com/${INSTAGRAM}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-pink-400/30 text-pink-300 hover:border-pink-400/60 hover:text-pink-200 font-bold text-sm transition-all"
+              style={{ background: 'rgba(236,72,153,0.06)' }}
+            >
+              📸 Instagram
+            </a>
+            <a
+              href={`https://tiktok.com/@${TIKTOK}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white/70 hover:border-white/40 hover:text-white font-bold text-sm transition-all"
+              style={{ background: 'rgba(255,255,255,0.04)' }}
+            >
+              🎵 TikTok
+            </a>
+          </div>
+          <p className="text-slate-600 text-xs mt-5">Before & after photos · Car care tips · Local Bucks content</p>
+        </div>
+      </section>
+
       {/* Google Reviews nudge */}
       <section className="py-14 px-4 text-center" style={{ background: '#071428' }}>
         <div className="max-w-xl mx-auto">
@@ -587,8 +750,15 @@ export default function App() {
               <p className="text-sky-400 font-semibold text-sm mb-1">Quick Links</p>
               <div className="flex flex-col gap-1">
                 <a href="#services" className="text-slate-500 hover:text-sky-400 text-xs transition-colors">Our Services</a>
+                <a href="#pricing" className="text-slate-500 hover:text-sky-400 text-xs transition-colors">Pricing</a>
                 <a href="#areas" className="text-slate-500 hover:text-sky-400 text-xs transition-colors">Areas We Cover</a>
                 <a href="#faq" className="text-slate-500 hover:text-sky-400 text-xs transition-colors">FAQs</a>
+                <a href="#book" className="text-slate-500 hover:text-sky-400 text-xs transition-colors">Book Online</a>
+              </div>
+              <div className="flex flex-col gap-1 mt-4">
+                <p className="text-sky-400 font-semibold text-xs mb-1">Follow Us</p>
+                <a href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-pink-400 text-xs transition-colors">📸 Instagram</a>
+                <a href={`https://tiktok.com/@${TIKTOK}`} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-white text-xs transition-colors">🎵 TikTok</a>
               </div>
             </div>
           </div>
