@@ -10,6 +10,10 @@
     <meta name="description" content="ZL Scrubz — premium mobile car wash & valeting in High Wycombe, Amersham, Chesham & surrounding areas. We come to your door. Hand wash, wax, interior clean & more. 10% off your first wash!" />
     <meta name="keywords" content="mobile car wash Wycombe, car valeting Amersham, door to door car wash, mobile valet High Wycombe, car wash Chesham, premium car valeting, hand car wash near me" />
     <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="GB-BKM" />
+    <meta name="geo.placename" content="High Wycombe, Buckinghamshire" />
+    <meta name="geo.position" content="51.6287;-0.7482" />
+    <meta name="ICBM" content="51.6287, -0.7482" />
     <link rel="canonical" href="https://zl-scrubz.vercel.app/" />
 
     <!-- Open Graph (Facebook / WhatsApp) -->
@@ -55,11 +59,37 @@
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gleaming Finish" } }
         ]
       },
-      "offers": {
-        "@type": "Offer",
-        "name": "10% off first wash",
-        "description": "Get 10% off your first car wash. Limited availability."
-      }
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Express Wash",
+          "description": "Full exterior hand wash, wheel & tyre clean, windows and dry & shine",
+          "price": "25",
+          "priceCurrency": "GBP",
+          "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "25", "priceCurrency": "GBP" }
+        },
+        {
+          "@type": "Offer",
+          "name": "Full Valet",
+          "description": "Express wash plus interior vacuum, dashboard wipe, glass polish and protective wax coat",
+          "price": "55",
+          "priceCurrency": "GBP",
+          "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "55", "priceCurrency": "GBP" }
+        },
+        {
+          "@type": "Offer",
+          "name": "Premium Detail",
+          "description": "Full valet plus upholstery shampoo, deep tyre dressing, door shuts cleaned and final buff",
+          "price": "85",
+          "priceCurrency": "GBP",
+          "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "85", "priceCurrency": "GBP" }
+        },
+        {
+          "@type": "Offer",
+          "name": "10% off first wash",
+          "description": "Get 10% off your first car wash. Limited availability."
+        }
+      ]
     }
     </script>
 

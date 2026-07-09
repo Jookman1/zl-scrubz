@@ -3,6 +3,7 @@ import './App.css'
 import './index.css'
 
 const PHONE = 'YOUR_NUMBER'
+const WHATSAPP = 'YOUR_NUMBER' // include country code digits only e.g. 447700000000
 
 const services = [
   { icon: '🚿', title: 'Full Exterior Wash & Wax', desc: 'Hand wash with premium products + protective wax coat for lasting shine' },
@@ -45,6 +46,75 @@ const faqs = [
   {
     q: 'Can you valet a van or large SUV?',
     a: 'Absolutely — we cater for all vehicle types including cars, SUVs, MPVs and vans. Larger vehicles may be priced slightly higher. Just mention your vehicle when booking.',
+  },
+]
+
+const packages = [
+  {
+    name: 'Express Wash',
+    tag: null,
+    desc: 'Perfect quick refresh',
+    price: 'From £25',
+    includes: [
+      'Full exterior hand wash',
+      'Wheel & tyre clean',
+      'Windows wiped down',
+      'Exterior dry & shine',
+    ],
+  },
+  {
+    name: 'Full Valet',
+    tag: 'Most Popular',
+    desc: 'Our signature service',
+    price: 'From £55',
+    includes: [
+      'Everything in Express Wash',
+      'Interior vacuum & dust',
+      'Dashboard & console wipe',
+      'Glass polish inside & out',
+      'Protective wax coat',
+    ],
+  },
+  {
+    name: 'Premium Detail',
+    tag: 'Best Finish',
+    desc: 'The full works',
+    price: 'From £85',
+    includes: [
+      'Everything in Full Valet',
+      'Upholstery shampoo',
+      'Deep tyre dressing',
+      'Door shuts & sills cleaned',
+      'Final inspection & buff',
+    ],
+  },
+]
+
+const trust = [
+  { icon: '🛡️', label: 'Fully Insured' },
+  { icon: '🌿', label: 'Eco-Friendly Products' },
+  { icon: '⚡', label: 'Same-Day Booking' },
+  { icon: '💯', label: 'No Hidden Charges' },
+  { icon: '🤝', label: 'No Contracts' },
+  { icon: '⭐', label: 'Satisfaction Guaranteed' },
+]
+
+const whyMobile = [
+  {
+    title: 'Saves You Time',
+    desc: 'No driving to a car wash, no queuing, no waiting around. We fit around your schedule — at home, at work, wherever suits you.',
+  },
+  {
+    title: 'Safer for Your Paintwork',
+    desc: 'Automated machine brushes trap grit and cause micro-scratches over time. Hand washing with proper mitts and clean water is significantly safer for your car\'s finish.',
+  },
+  {
+    title: 'Professional-Grade Products',
+    desc: 'We use premium pH-neutral shampoos, clay bar treatments and carnauba wax — the same products used by professional detailers, not supermarket basics.',
+  },
+  {
+    title: 'Personal Attention to Detail',
+    desc: 'Because we\'re a small local team, every car gets our full attention. We\'re not rushing through 50 cars a day — yours gets the care it deserves.',
   },
 ]
 
@@ -154,12 +224,22 @@ export default function App() {
             <span className="text-xl font-black zl-text tracking-wide">ZL</span>
             <span className="text-xl font-black text-white tracking-wide">SCRUBZ</span>
           </div>
-          <a
-            href={`tel:${PHONE}`}
-            className="glow-btn bg-sky-500 hover:bg-sky-400 text-white font-bold px-5 py-2 rounded-full text-sm transition-all"
-          >
-            📞 Call to Book
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href={`https://wa.me/${WHATSAPP}?text=Hi%20ZL%20Scrubz!%20I%27d%20like%20to%20book%20a%20valet%20please.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-500 text-white font-bold px-4 py-2 rounded-full text-sm transition-all hidden sm:inline-flex items-center gap-1"
+            >
+              💬 WhatsApp
+            </a>
+            <a
+              href={`tel:${PHONE}`}
+              className="glow-btn bg-sky-500 hover:bg-sky-400 text-white font-bold px-5 py-2 rounded-full text-sm transition-all"
+            >
+              📞 Call to Book
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -298,6 +378,91 @@ export default function App() {
         </div>
       </section>
 
+      {/* Trust Signals */}
+      <section className="py-10 px-4" style={{ background: 'linear-gradient(180deg, #071428 0%, #040c1a 100%)' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-4">
+            {trust.map((t) => (
+              <div key={t.label} className="flex items-center gap-2 border border-sky-400/15 rounded-full px-5 py-2 bg-sky-500/5">
+                <span className="text-base">{t.icon}</span>
+                <span className="text-slate-300 text-sm font-semibold">{t.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="py-20 px-4" style={{ background: '#040c1a' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-sky-400 font-black text-xl md:text-2xl tracking-widest uppercase mb-2">
+              Simple, Honest Pricing
+            </h2>
+            <div className="section-divider max-w-xs mx-auto" />
+            <p className="text-slate-400 mt-4 text-sm max-w-xl mx-auto">
+              Prices vary by vehicle size and condition. The figures below are starting points — call us for an exact quote, it only takes 2 minutes.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {packages.map((pkg) => (
+              <div key={pkg.name} className={`price-card rounded-2xl p-7 flex flex-col${pkg.tag === 'Most Popular' ? ' featured' : ''}`}>
+                {pkg.tag && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="bg-sky-500 text-white text-xs font-black px-4 py-1 rounded-full tracking-wide">
+                      {pkg.tag}
+                    </span>
+                  </div>
+                )}
+                <p className="text-sky-400 text-xs font-bold tracking-widest uppercase mb-1">{pkg.desc}</p>
+                <h3 className="text-white font-black text-2xl mb-1">{pkg.name}</h3>
+                <p className="text-3xl font-black zl-text mb-6">{pkg.price}</p>
+                <ul className="flex flex-col gap-2 mb-8 flex-1">
+                  {pkg.includes.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-slate-300 text-sm">
+                      <span className="text-sky-400 mt-0.5 flex-shrink-0">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={`tel:${PHONE}`}
+                  className="block text-center bg-sky-500/15 hover:bg-sky-500/30 border border-sky-400/30 hover:border-sky-400/60 text-sky-300 font-bold py-3 rounded-xl transition-all text-sm"
+                >
+                  Book This Package
+                </a>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-slate-500 text-xs mt-6">
+            * Prices are starting points and may vary. Larger vehicles (SUVs, vans, 4x4s) are priced slightly higher. No booking fee.
+          </p>
+        </div>
+      </section>
+
+      {/* Why Mobile Valeting */}
+      <section className="py-20 px-4" style={{ background: 'linear-gradient(180deg, #040c1a 0%, #071428 100%)' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-sky-400 font-black text-xl md:text-2xl tracking-widest uppercase mb-2">
+              Why Choose Mobile Valeting?
+            </h2>
+            <div className="section-divider max-w-xs mx-auto" />
+            <p className="text-slate-400 mt-4 text-sm max-w-xl mx-auto">
+              Mobile hand car washing isn't just convenient — it's genuinely better for your car.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {whyMobile.map((item) => (
+              <div key={item.title} className="service-card rounded-2xl p-7">
+                <h3 className="text-white font-bold text-base mb-3">{item.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Areas We Cover */}
       <section id="areas" className="py-20 px-4" style={{ background: 'linear-gradient(180deg, #040c1a 0%, #071428 100%)' }}>
         <div className="max-w-4xl mx-auto text-center">
@@ -350,15 +515,55 @@ export default function App() {
           <p className="text-slate-400 mb-8 text-base">
             Serving <span className="text-sky-300 font-semibold">Wycombe, Amersham &amp; Surrounding Areas</span> — we come to your door
           </p>
-          <a
-            href={`tel:${PHONE}`}
-            className="glow-btn inline-flex items-center gap-3 bg-sky-500 hover:bg-sky-400 text-white font-black px-10 py-5 rounded-full text-xl transition-all"
-          >
-            📞 <span>Call to Book</span>
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={`tel:${PHONE}`}
+              className="glow-btn inline-flex items-center gap-3 bg-sky-500 hover:bg-sky-400 text-white font-black px-10 py-5 rounded-full text-xl transition-all"
+            >
+              📞 <span>Call to Book</span>
+            </a>
+            <a
+              href={`https://wa.me/${WHATSAPP}?text=Hi%20ZL%20Scrubz!%20I%27d%20like%20to%20book%20a%20valet%20please.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-green-600 hover:bg-green-500 text-white font-black px-10 py-5 rounded-full text-xl transition-all"
+            >
+              💬 <span>WhatsApp Us</span>
+            </a>
+          </div>
           <p className="text-slate-500 text-sm mt-6">Don't forget — 10% off your first wash!</p>
         </div>
       </section>
+
+      {/* Google Reviews nudge */}
+      <section className="py-14 px-4 text-center" style={{ background: '#071428' }}>
+        <div className="max-w-xl mx-auto">
+          <p className="text-3xl mb-3">⭐⭐⭐⭐⭐</p>
+          <h2 className="text-white font-black text-xl md:text-2xl mb-3">Happy with your valet?</h2>
+          <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+            Leaving us a quick Google review helps other local families and businesses find us — and it means the world to a young team just getting started.
+          </p>
+          <a
+            href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border border-yellow-400/40 text-yellow-300 hover:text-yellow-200 hover:border-yellow-400/70 font-bold px-7 py-3 rounded-full text-sm transition-all"
+          >
+            ⭐ Leave a Google Review
+          </a>
+        </div>
+      </section>
+
+      {/* Floating WhatsApp button */}
+      <a
+        href={`https://wa.me/${WHATSAPP}?text=Hi%20ZL%20Scrubz!%20I%27d%20like%20to%20book%20a%20valet%20please.`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="wa-btn fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-400 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg text-2xl"
+        aria-label="Chat on WhatsApp"
+      >
+        💬
+      </a>
 
       {/* Footer */}
       <footer className="border-t border-sky-400/10 py-10 px-4" style={{ background: '#02060f' }}>
