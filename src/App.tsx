@@ -4,7 +4,6 @@ import './index.css'
 
 const PHONE = 'YOUR_NUMBER'
 const WHATSAPP = 'YOUR_NUMBER' // include country code digits only e.g. 447700000000
-const EMAIL = 'Jack@Jaxendor.com'
 const INSTAGRAM = 'zlscrubz' // Instagram handle without @
 const TIKTOK = 'zlscrubz'    // TikTok handle without @
 
@@ -121,15 +120,6 @@ const whyMobile = [
   },
 ]
 
-const vehicles = [
-  { icon: '🚗', type: 'Small Cars', example: 'Fiesta, Polo, Corsa', note: 'Best value per size' },
-  { icon: '🚙', type: 'Saloons & Hatches', example: 'Golf, Focus, Astra', note: 'Our most popular category' },
-  { icon: '🛻', type: 'SUVs & 4x4s', example: 'Qashqai, CRV, Discovery', note: 'Slightly higher price' },
-  { icon: '🚐', type: 'MPVs & People Carriers', example: 'Galaxy, Touran, Zafira', note: 'Quote on request' },
-  { icon: '🚚', type: 'Vans & Commercials', example: 'Transit, Sprinter, Vivaro', note: 'Quote on request' },
-  { icon: '🏎️', type: 'Prestige & Sports', example: 'BMW, Mercedes, Audi', note: 'Extra care taken' },
-]
-
 const areas = [
   'High Wycombe', 'Amersham', 'Chesham', 'Beaconsfield',
   'Hazlemere', 'Flackwell Heath', 'Loudwater', 'Penn',
@@ -142,23 +132,42 @@ const steps = [
   { num: '03', title: 'Drive Away Gleaming', desc: 'We clean, polish and inspect your car until it\'s showroom-ready. You just enjoy the result.' },
 ]
 
-function BookingForm() {
-  const [sent, setSent] = useState(false)
-  const [form, setForm] = useState({ name: '', vehicle: '', location: '', service: 'Full Valet', message: '' })
+const CRM_ENDPOINT = 'https://aunuujoqksfaudssowuk.supabase.co/functions/v1/web-lead'
 
-  const handleSubmit = (e: React.FormEvent) => {
+function BookingForm() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [form, setForm] = useState({ name: '', phone: '', email: '', location: '', service: 'Full Valet', message: '' })
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const body = `Name: ${form.name}%0AVehicle: ${form.vehicle}%0ALocation: ${form.location}%0AService: ${form.service}%0AMessage: ${form.message}`
-    window.location.href = `mailto:${EMAIL}?subject=ZL Scrubz Booking Enquiry&body=${body}`
-    setSent(true)
+    setStatus('sending')
+    try {
+      const res = await fetch(CRM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          location: form.location,
+          service: form.service,
+          message: form.message,
+          source: 'ZL Scrubz website',
+        }),
+      })
+      if (!res.ok) throw new Error()
+      setStatus('sent')
+    } catch {
+      setStatus('error')
+    }
   }
 
-  if (sent) {
+  if (status === 'sent') {
     return (
       <div className="text-center py-12">
         <div className="text-5xl mb-4">✅</div>
-        <h3 className="text-white font-black text-xl mb-2">Thanks! We'll be in touch soon.</h3>
-        <p className="text-slate-400 text-sm">Or call/WhatsApp us for a faster response.</p>
+        <h3 className="text-white font-black text-xl mb-2">Got it! We'll be in touch soon.</h3>
+        <p className="text-slate-400 text-sm">For same-day bookings, call or WhatsApp us directly.</p>
       </div>
     )
   }
@@ -172,9 +181,15 @@ function BookingForm() {
           className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600" />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Vehicle *</label>
-        <input required value={form.vehicle} onChange={e => setForm(f => ({ ...f, vehicle: e.target.value }))}
-          placeholder="e.g. BMW 3 Series, Ford Transit"
+        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Phone Number *</label>
+        <input required type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+          placeholder="e.g. 07700 900123"
+          className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600" />
+      </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Email</label>
+        <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+          placeholder="optional"
           className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600" />
       </div>
       <div className="flex flex-col gap-1">
@@ -183,7 +198,7 @@ function BookingForm() {
           placeholder="e.g. High Wycombe, HP13"
           className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600" />
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 sm:col-span-2">
         <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Service Wanted</label>
         <select value={form.service} onChange={e => setForm(f => ({ ...f, service: e.target.value }))}
           className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors">
@@ -196,14 +211,17 @@ function BookingForm() {
       <div className="flex flex-col gap-1 sm:col-span-2">
         <label className="text-sky-400 text-xs font-bold uppercase tracking-widest">Anything else?</label>
         <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-          placeholder="Preferred date/time, specific concerns, access instructions..."
+          placeholder="Preferred date/time, access instructions, anything we should know..."
           rows={3}
           className="bg-sky-500/5 border border-sky-400/20 focus:border-sky-400/60 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors placeholder:text-slate-600 resize-none" />
       </div>
       <div className="sm:col-span-2">
-        <button type="submit"
-          className="w-full glow-btn bg-sky-500 hover:bg-sky-400 text-white font-black py-4 rounded-xl text-base transition-all">
-          Send Enquiry 🚿
+        {status === 'error' && (
+          <p className="text-red-400 text-sm text-center mb-3">Something went wrong — please call or WhatsApp us directly.</p>
+        )}
+        <button type="submit" disabled={status === 'sending'}
+          className="w-full glow-btn bg-sky-500 hover:bg-sky-400 disabled:opacity-50 text-white font-black py-4 rounded-xl text-base transition-all">
+          {status === 'sending' ? 'Sending…' : 'Send Enquiry 🚿'}
         </button>
         <p className="text-center text-slate-500 text-xs mt-3">We aim to reply within a few hours. For same-day bookings, call or WhatsApp us directly.</p>
       </div>
@@ -619,31 +637,6 @@ export default function App() {
             </a>
           </div>
           <p className="text-slate-500 text-sm mt-6">Don't forget — 10% off your first wash!</p>
-        </div>
-      </section>
-
-      {/* Vehicle Types */}
-      <section id="vehicles" className="py-20 px-4" style={{ background: 'linear-gradient(180deg, #071428 0%, #040c1a 100%)' }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-sky-400 font-black text-xl md:text-2xl tracking-widest uppercase mb-2">
-              All Vehicle Types Welcome
-            </h2>
-            <div className="section-divider max-w-xs mx-auto" />
-            <p className="text-slate-400 mt-4 text-sm max-w-xl mx-auto">
-              From city cars to commercial vans — if it has wheels, we can valet it.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {vehicles.map((v) => (
-              <div key={v.type} className="service-card rounded-2xl p-5 text-center">
-                <div className="text-3xl mb-2">{v.icon}</div>
-                <h3 className="text-white font-bold text-sm mb-1">{v.type}</h3>
-                <p className="text-slate-500 text-xs mb-2">{v.example}</p>
-                <span className="text-sky-400 text-xs font-semibold">{v.note}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
